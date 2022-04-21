@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 21, 2022 lúc 03:41 PM
+-- Thời gian đã tạo: Th4 21, 2022 lúc 06:53 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.2
 
@@ -413,7 +413,7 @@ INSERT INTO `shifts` (`shiftID`, `staffMemberSocialSecurityNumber`, `vaccination
 --
 
 CREATE TABLE `staffmembers` (
-  `staffMemberSocialSocialSecurityNumber` varchar(20) NOT NULL,
+  `staffMemberSocialSecurityNumber` varchar(20) NOT NULL,
   `name` varchar(20) NOT NULL,
   `dateOfBirth` date DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
@@ -424,7 +424,7 @@ CREATE TABLE `staffmembers` (
 -- Đang đổ dữ liệu cho bảng `staffmembers`
 --
 
-INSERT INTO `staffmembers` (`staffMemberSocialSocialSecurityNumber`, `name`, `dateOfBirth`, `phone`, `role`) VALUES
+INSERT INTO `staffmembers` (`staffMemberSocialSecurityNumber`, `name`, `dateOfBirth`, `phone`, `role`) VALUES
 ('18010236-109E', 'Pear Cut Mountain', '1970-02-26', '040-114-0776', 'admin'),
 ('19571227-3064', 'Norwood Murphy', '1957-12-27', '044-488-4064', 'nurse'),
 ('19610330-6066', 'Nadia Jacobson', '1961-03-30', '041-144-8822', 'doctor'),
@@ -717,7 +717,7 @@ ALTER TABLE `shifts`
 -- Chỉ mục cho bảng `staffmembers`
 --
 ALTER TABLE `staffmembers`
-  ADD PRIMARY KEY (`staffMemberSocialSocialSecurityNumber`);
+  ADD PRIMARY KEY (`staffMemberSocialSecurityNumber`);
 
 --
 -- Chỉ mục cho bảng `symptoms`
@@ -801,7 +801,7 @@ ALTER TABLE `vaccinestations`
 --
 ALTER TABLE `account`
   ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`socialSecurityNumber`) REFERENCES `patients` (`patientSocialSecurityNumber`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `account_ibfk_2` FOREIGN KEY (`socialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSocialSecurityNumber`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `account_ibfk_2` FOREIGN KEY (`socialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSecurityNumber`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `diagnoses`
@@ -814,7 +814,7 @@ ALTER TABLE `diagnoses`
 -- Các ràng buộc cho bảng `shifts`
 --
 ALTER TABLE `shifts`
-  ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`staffmemberSocialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSocialSecurityNumber`),
+  ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`staffmemberSocialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSecurityNumber`),
   ADD CONSTRAINT `shifts_ibfk_2` FOREIGN KEY (`vaccinationID`) REFERENCES `vaccinations` (`vaccinationID`);
 
 --

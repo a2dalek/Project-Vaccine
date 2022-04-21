@@ -13,9 +13,9 @@ class VaccinationsController {
         })
     }
 
-    // [GET] /:index
-    async getByIndex(req, res) {
-        const results = await vaccinationsQuery.getVaccinationByIndex();
+    // [GET] /:social_security_number
+    async getByID(req, res) {
+        const results = await vaccinationsQuery.getVaccinationByID(req.param('ID'));
         res.json({
             error: 0,
             error_msg: "Vaccination by index",
