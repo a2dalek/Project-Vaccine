@@ -1,0 +1,25 @@
+{
+  "name": "project-vaccine",
+  "version": "1.0.0",
+  "description": "Một cơ sở dữ liệu đơn giản để quản lý quá trình tiêm chủng vaccine Covid19 ở Finland về các khía cạnh: quá trình vận chuyển, các đợt tiêm chủng và tình trạng người tiêm. ## Thiết kế database: Chi tiết thiết kế xem tại file [](C:/Users/bangphuonglaptop/Desktop/Project%20Vaccine/project_vaccine_description.pdf)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a2dalek/Project-Vaccine.git"
+  },
+  "author": "a2dalek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a2dalek/Project-Vaccine/issues"
+  },
+  "homepage": "https://github.com/a2dalek/Project-Vaccine#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "joi": "^17.6.0",
+    "mysql": "^2.18.1"
+  }
+}
