@@ -24,8 +24,17 @@ class StaffMemberQueries {
                                       
             const staffMembersList = await dbQuery(getStaffMemberBySocialSecurityNumberQuery);
             const staffMember = staffMembersList[0];
-             
-            const vaccinationsList = await vaccinationsQueries.getVaccinationsByStaffMemberSocialSecurityNumber(socialSecurityNumber);
+            
+            var getVaccinationsByStaffMemberSocialSecurityNumberQuery = 
+            'SELECT vaccinations.vaccinationID, vaccinestations.name, vaccinations.limitNumber, vaccinations.date, vaccinations.vaccineType\
+            FROM vaccinations\
+            INNER JOIN vaccinestations\
+            ON vaccinations.vaccineStationId = vaccinestations.vaccineStationId\
+            INNER JOIN shifts\
+            ON shifts.vaccinationID=vaccinations.vaccinationID\
+            AND shifts.staffMemberSocialSecurityNumber=' + mysql.escape(socialSecurityNumber);
+                                                       
+            const vaccinationsList = await dbQuery(getVaccinationsByStaffMemberSocialSecurityNumberQuery);
             // const validatedResults = responseBodySchema.validate(vaccineStation);
             return {
                 staffMemberSocialSecurityNumber: staffMember.staffMemberSocialSecurityNumber,

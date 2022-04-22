@@ -5,7 +5,7 @@ const vaccinationQueries = require('./vaccinationQueries');
 const diagnoseQueries = require('./diagnoseQueries');
 const mysql = require('mysql');
 
-class PatientMemberQueries {
+class PatientQueries {
 
     // Find patients by vaccinationId
     
@@ -76,11 +76,6 @@ class PatientMemberQueries {
         //     })
         // })
 
-        // var getAllVaccinationsQuery = 'SELECT vaccinationID, name, limitNumber, date, vaccineType \
-        //                                FROM vaccinations \
-        //                                LEFT JOIN vaccineStations \
-        //                                ON vaccinations.vaccineStationId=vaccineStations.vaccineStationId';
-
         var getPatientBySocialSecurityNumberQuery = 'SELECT * \
                                   FROM patients \
                                   WHERE patientSocialSecurityNumber=' + mysql.escape(socialSecurityNumber);
@@ -89,7 +84,17 @@ class PatientMemberQueries {
             const patientsList = await dbQuery(getPatientBySocialSecurityNumberQuery);
             const patient = patientsList[0];
             
-            const vaccinationsList = await vaccinationQueries.getVaccinationsByPatientSocialSecurityNumber(socialSecurityNumber);
+            var getVaccinationsByPatientSocialSecurityNumberQuery = 
+            'SELECT vaccinations.vaccinationID, vaccinestations.name, vaccinations.limitNumber, vaccinations.date, vaccinations.vaccineType\
+            FROM vaccinations\
+            INNER JOIN vaccinestations\
+            ON vaccinations.vaccineStationId = vaccinestations.vaccineStationId\
+            INNER JOIN vaccineregistrations\
+            ON vaccineregistrations.vaccinationID=vaccinations.vaccinationID\
+            AND vaccineregistrations.patientSocialSecurityNumber=' + mysql.escape(socialSecurityNumber);
+                                                       
+            const vaccinationsList = await dbQuery(getVaccinationsByPatientSocialSecurityNumberQuery);
+
             const diagnosesList = await diagnoseQueries.getDiagnosesBySocialSecurityNumber(socialSecurityNumber);
 
             return {
@@ -110,6 +115,6 @@ class PatientMemberQueries {
 
 }
 
-module.exports = new PatientMemberQueries;
+module.exports = new PatientQueries;
 
 

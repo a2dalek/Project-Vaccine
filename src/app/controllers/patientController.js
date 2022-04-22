@@ -1,11 +1,11 @@
 const { string } = require("joi");
-const patientMemberQueries = require("../DB/patientQueries");
+const patientQueries = require("../DB/patientQueries");
 
 class PatientsController {
 
     // [GET] /all
     async all(req, res) {
-        const results = await patientMemberQueries.getAllPatients();
+        const results = await patientQueries.getAllPatients();
         res.json({
             error: 0,
             error_msg: "Vaccinations",
@@ -15,7 +15,7 @@ class PatientsController {
 
     // [GET] /:socialsecuritynumber
     async getBySocialSecurityNumber(req, res) {
-        const results = await patientMemberQueries.getPatientBySocialSecurityNumber(req.param('socialsecuritynumber'));
+        const results = await patientQueries.getPatientBySocialSecurityNumber(req.param('socialsecuritynumber'));
         res.json({
             error: 0,
             error_msg: "Vaccination by index",
