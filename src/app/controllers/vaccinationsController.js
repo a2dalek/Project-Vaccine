@@ -1,9 +1,9 @@
 const { string } = require("joi");
-const vaccinationsQuery = require("../DB/vaccinationsQuery");
+const vaccinationsQuery = require("../DB/vaccinationQueries");
 
 class VaccinationsController {
 
-    // [GET] /
+    // [GET] /all
     async all(req, res) {
         const results = await vaccinationsQuery.getAllVaccinations();
         res.json({
@@ -13,7 +13,7 @@ class VaccinationsController {
         })
     }
 
-    // [GET] /:social_security_number
+    // [GET] /:ID
     async getByID(req, res) {
         const results = await vaccinationsQuery.getVaccinationByID(req.param('ID'));
         res.json({
