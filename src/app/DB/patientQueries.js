@@ -4,6 +4,11 @@ const dbQuery = require('./ultis');
 const vaccinationQueries = require('./vaccinationQueries');
 const diagnoseQueries = require('./diagnoseQueries');
 const mysql = require('mysql');
+const {validationResult} = require("express-validator");
+const bcrypt = require('bcryptjs');
+const DB = require('../DB/DBconnect');
+const {compareSync} = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 class PatientQueries {
 
@@ -112,6 +117,120 @@ class PatientQueries {
         
     };
 
+    //insert patient
+    async insertPatient(request) {
+        const error = validationResult(request);
+
+        if (!error.isEmpty()) {
+            return {
+                message: error.array()
+            };
+        }
+        try {
+            var getSSN = 'SELECT patientSocialSecurityNumber FROM patients\
+                            WHERE patientSocialSecurityNumber =' + mysql.escape(request.body.SSN);
+            const row = await dbQuery(getSSN);
+
+             if (row[0]) {
+                return {
+                    message: "The SSN already in use"
+                };
+             }
+            const hashPass = await bcrypt.hash(request.body.password, 12);
+
+            const amount = await dbQuery('SELECT COUNT(accountID) FROM account');
+
+        //    var insertIntoAccount = 'INSERT INTO vaccine.account(accountID, socialSecurityNumber, password, userType) VALUES(?, ?, ?, ?)';
+            var insertIntoPatient = 'INSERT INTO vaccine.patients(patientSocialSecurityNumber, name, gender, dateOfBirth) VALUES(?, ?, ?, ?)';
+
+            const patient = await DB.DBcon.query(insertIntoPatient, [
+                request.body.SSN,
+                request.body.name,
+                request.body.gender,
+                request.body.dateOfBirth
+            ]);
+
+        //    console.log(amount);
+        /*    const account = await DB.DBcon.query(insertIntoAccount, [
+                amount[0] + 1,
+                request.body.SSN,
+                hashPass,
+                'patient'
+            ]);*/
+
+
+            return  {
+                message: "Successfully insert"
+            };
+
+
+        } catch (error) {
+            throw error;
+        }
+
+    }
+
+    async login(request) {
+        const error = validationResult(request);
+
+        if (!error.isEmpty()) {
+            return {
+                message: error.array()
+            };
+        }
+
+        try {
+            var getEmail = 'SELECT * FROM patients WHERE patientSocialSecurityNumber = ' + mysql.escape(request.body.SSN);
+            const [row] = await dbQuery(getEmail);
+
+            if (!row) {
+                return {
+                    message: "Invalid email address"
+                };
+            }
+
+            /*const passMatch = await bcrypt.compare(request.body.password, row.password);
+            if(!passMatch){
+                return {
+                    message: "Incorrect password",
+                };
+            }*/
+            console.log(row);
+           const accessToken = jwt.sign({
+               patientSocialSecurityNumber:row.patientSocialSecurityNumber,
+               name:row.name,
+               gender:row.gender,
+               dateOfBirth:row.dateOfBirth},
+               'Databaseissofuckinez');
+
+            return {
+                token: accessToken
+            };
+
+        }catch(err){
+            throw(err);
+        }
+    }
+
+    async getPatientByToken(req) {
+        //console.log(req);
+        try{
+
+            if(!req.body.token){
+                return {
+                    message: "Please provide the token",
+                };
+            }
+
+            const accessToken = req.body.token;
+            const decoded = jwt.verify(accessToken, 'Databaseissofuckinez');
+            //console.log(decoded.patientSocialSecurityNumber);
+            return decoded;
+        }
+        catch(err){
+            throw(err);
+        }
+    }
 
 }
 
