@@ -18,4 +18,6 @@ function dbQuery(databaseQuery) {
     });
 }
 
+
+
 module.exports = dbQuery;
