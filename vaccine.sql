@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 21, 2022 lúc 06:53 PM
+-- Thời gian đã tạo: Th5 01, 2022 lúc 11:00 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.2
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `account` (
   `accountID` int(11) NOT NULL,
   `socialSecurityNumber` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(64) NOT NULL,
   `userType` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -39,8 +39,9 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`accountID`, `socialSecurityNumber`, `password`, `userType`) VALUES
-(5, '000127-4899', '12345678', 'patient'),
-(6, '18010236-109E', '12345678', 'admin');
+(6, '18010236-109E', '$2a$10$HVfKLoH/hIrS5GgtzSK7h.7Ud38OYs35woi4paKw44ycIcN6s76cC', 'admin'),
+(10, '000128-4813', '$2a$10$cGTwa6IxYxyyufc91aLXXOrL4hSrJFbbBIrh0.MfbDKTenXz9xRKi', 'user'),
+(12, '010101-97E', '$2a$10$JuA/TiK.ycRZCjr3pNkaPuyYljybc4JqIIhM/m7tYrDgXSu/MXoS.', 'user');
 
 -- --------------------------------------------------------
 
@@ -156,7 +157,9 @@ INSERT INTO `diagnoses` (`diagnoseID`, `patientSocialSecurityNumber`, `symptomID
 (294, '830908-9826', 3, '2021-02-18'),
 (295, '701127-5340', 19, '2021-05-12'),
 (296, '871128-519R', 18, '2021-03-17'),
-(297, '850310-787I', 12, '2021-05-11');
+(297, '850310-787I', 12, '2021-05-11'),
+(298, '000128-4813', 19, '2022-04-13'),
+(299, '000128-4813', 19, '2022-04-13');
 
 -- --------------------------------------------------------
 
@@ -177,9 +180,14 @@ CREATE TABLE `patients` (
 
 INSERT INTO `patients` (`patientSocialSecurityNumber`, `name`, `gender`, `dateOfBirth`) VALUES
 ('000127-4899', 'Ms. Opal Lang', 'F', '2000-01-27'),
+('000127-4901', 'hhihi', 'M', '2011-03-01'),
+('000127-4911', 'hhihi', 'M', '2011-03-01'),
+('000128-4811', 'hhihi', 'M', '2011-03-01'),
+('000128-4813', 'hhihi', 'M', '2011-03-01'),
 ('000325-6271', 'Mariam Ritchie', 'F', '2000-03-25'),
 ('000425-224A', 'Christian McGlynn', 'M', '2000-04-25'),
 ('000506-642P', 'Cassandra Mayert', 'F', '2000-05-06'),
+('010101-97E', 'Le Thai Son', 'M', '2002-03-03'),
 ('010201-5814', 'Harrison Heaney', 'M', '2001-02-01'),
 ('010327-525G', 'Dr. Mireille Hansen', 'M', '2001-03-27'),
 ('011103-6045', 'Mrs. Kailyn Collier ', 'F', '2001-11-03'),
@@ -404,7 +412,8 @@ INSERT INTO `shifts` (`shiftID`, `staffMemberSocialSecurityNumber`, `vaccination
 (58, '19790212-2618', 7),
 (59, '19660601-1051', 8),
 (60, '19760420-5220', 6),
-(61, '19900103-6172', 6);
+(61, '19900103-6172', 6),
+(62, '19750726-4531', 16);
 
 -- --------------------------------------------------------
 
@@ -535,7 +544,8 @@ INSERT INTO `vaccinations` (`vaccinationID`, `vaccineStationId`, `limitNumber`, 
 (5, 3, 200, '2021-05-10', 'Comirnaty'),
 (6, 2, 300, '2021-05-14', 'AstraZeneca'),
 (7, 4, 200, '2021-05-10', 'AstraZeneca'),
-(8, 6, 200, '2021-05-10', 'AstraZeneca');
+(8, 6, 200, '2021-05-10', 'AstraZeneca'),
+(16, 3, 300, '2022-05-08', 'AstraZeneca');
 
 -- --------------------------------------------------------
 
@@ -653,7 +663,9 @@ INSERT INTO `vaccineregistrations` (`vaccineRegistrationID`, `patientSocialSecur
 (97, '950303-191X', 8),
 (98, '120318-5791', 3),
 (99, '761223-707W', 5),
-(100, '070218-9109', 6);
+(100, '070218-9109', 6),
+(101, '000128-4813', 8),
+(103, '000128-4813', 16);
 
 -- --------------------------------------------------------
 
@@ -678,7 +690,8 @@ INSERT INTO `vaccinestations` (`vaccineStationId`, `name`, `phone`, `address`) V
 (3, 'Tapiola Health Center', '098-162-7770', 'Ahertajantie 2 02100 ESPOO'),
 (4, 'Iso Omena Vaccination Point', '098-163-4500', 'Suomelahdentie 1 02230 ESPOO'),
 (5, 'Sanomala Vaccination Point', '093-105-3153', 'Sanomatie 1 01770 VANTAA'),
-(6, 'Myyrmaki Energia Areena', '093-104-5930', 'Rajatorpantie 23 01600 VANTAA');
+(6, 'Myyrmaki Energia Areena', '093-104-5930', 'Rajatorpantie 23 01600 VANTAA'),
+(11, 'golden square', '095367289', '138 golden street');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -754,19 +767,19 @@ ALTER TABLE `vaccinestations`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `diagnoses`
 --
 ALTER TABLE `diagnoses`
-  MODIFY `diagnoseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=298;
+  MODIFY `diagnoseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
 
 --
 -- AUTO_INCREMENT cho bảng `shifts`
 --
 ALTER TABLE `shifts`
-  MODIFY `shiftID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `shiftID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT cho bảng `symptoms`
@@ -778,30 +791,23 @@ ALTER TABLE `symptoms`
 -- AUTO_INCREMENT cho bảng `vaccinations`
 --
 ALTER TABLE `vaccinations`
-  MODIFY `vaccinationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `vaccinationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT cho bảng `vaccineregistrations`
 --
 ALTER TABLE `vaccineregistrations`
-  MODIFY `vaccineRegistrationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `vaccineRegistrationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT cho bảng `vaccinestations`
 --
 ALTER TABLE `vaccinestations`
-  MODIFY `vaccineStationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `vaccineStationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
-
---
--- Các ràng buộc cho bảng `account`
---
-ALTER TABLE `account`
-  ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`socialSecurityNumber`) REFERENCES `patients` (`patientSocialSecurityNumber`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `account_ibfk_2` FOREIGN KEY (`socialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSecurityNumber`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `diagnoses`
