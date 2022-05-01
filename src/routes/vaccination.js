@@ -2,14 +2,12 @@ const express = require('express');
 const route = express.Router();
 
 const vaccinationsController = require('../app/controllers/vaccinationsController');
-const {validationResult} = require("express-validator");
-const mysql = require("mysql");
-const dbQuery = require("../app/DB/ultis");
-const bcrypt = require("bcryptjs");
-const DB = require("../app/DB/DBconnect");
+const {isAuth, isAdmin, isThisUser} = require('../app/auth/authMiddlewares');
 
-route.use('/all', vaccinationsController.all);
-route.use('/:ID', vaccinationsController.getByID)
-
+route.get('/all', isAuth, vaccinationsController.all);
+route.post('/:ID/add', isAuth, isAdmin, vaccinationsController.addStaffMember);
+route.post('/assign', isAuth, isThisUser, vaccinationsController.assign)
+route.get('/:ID', isAuth, isAdmin, vaccinationsController.getByID)
+route.post('/new', isAuth, isAdmin, vaccinationsController.insert)
 
 module.exports = route;

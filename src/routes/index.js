@@ -1,12 +1,11 @@
-const mainpageRoute = require('./mainpage');
+const homepageRoute = require('./homepage');
 const vaccinationsRoute = require('./vaccination');
 const vaccineStationRoute = require('./vaccineStation');
 const staffMemberRoute = require('./staffmember');
 const diagnoseRoute = require('./diagnose');
 const patientRoute = require('./patient');
-const registerRoute = require('./register');
-const loginRoute = require('./login');
-const userRoute = require('./user');
+const profileRoute = require('./profile');
+const authRoute = require('./auth')
 
 function route(app) {
     
@@ -14,11 +13,10 @@ function route(app) {
     app.use('/vaccinestations', vaccineStationRoute);
     app.use('/staffmembers', staffMemberRoute);
     app.use('/diagnoses', diagnoseRoute);
-    app.use('/patients', patientRoute)
-    app.use('/register', registerRoute);
-    app.use('/login', loginRoute);
-    app.use('/user', userRoute);
-    app.use('/', mainpageRoute);
+    app.use('/patients', patientRoute);
+    app.use('/auth', authRoute);
+    app.use('/profile', profileRoute);
+    app.use('/', homepageRoute);
 
 }
 

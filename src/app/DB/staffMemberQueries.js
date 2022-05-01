@@ -9,21 +9,16 @@ class StaffMemberQueries {
 
      async getStaffMemberBySocialSecurityNumber(socialSecurityNumber) {
 
-        // const responseBodySchema = Joi.object({
-        //     vaccineStationId: Joi.number().required(),
-        //     name: Joi.string().required(),
-        //     phone: Joi.string().required(),
-        //     address: Joi.string().required()
-        // });
+        //TODO: add validation
 
         try {
             var getStaffMemberBySocialSecurityNumberQuery = 'SELECT * \
                                       FROM staffmembers \
                                       WHERE staffMemberSocialSecurityNumber=' + mysql.escape(socialSecurityNumber);
             
-                                      
             const staffMembersList = await dbQuery(getStaffMemberBySocialSecurityNumberQuery);
             const staffMember = staffMembersList[0];
+            console.log(staffMember)
             
             var getVaccinationsByStaffMemberSocialSecurityNumberQuery = 
             'SELECT vaccinations.vaccinationID, vaccinestations.name, vaccinations.limitNumber, vaccinations.date, vaccinations.vaccineType\
@@ -53,15 +48,7 @@ class StaffMemberQueries {
 
     async getAllStaffMembers() {
 
-        // const responseBodySchema = Joi.array().items({
-        //     staffMember: Joi.object({
-        //         staffMemberSocialSecurityNumber: Joi.string().required(),
-        //         name: Joi.string().required(),
-        //         dateOfBirth: Joi.date(),
-        //         phone: Joi.string(),
-        //         role: Joi.string().required()
-        //     })
-        // })
+        //TODO: add validation
 
         var getAllStaffMembersQuery = 'SELECT *\
                                        FROM staffmembers';
@@ -79,15 +66,7 @@ class StaffMemberQueries {
 
     async getStaffMembersByVaccinationId(vaccinationID) {
 
-        // const responseBodySchema = Joi.array().items({
-        //     staffMember: Joi.object({
-        //         staffMemberSocialSecurityNumber: Joi.string().required(),
-        //         name: Joi.string().required(),
-        //         dateOfBirth: Joi.date(),
-        //         phone: Joi.string(),
-        //         role: Joi.string().required()
-        //     })
-        // })
+        //TODO: add validation
 
         var getStaffMembersByVaccinationQuery = 'SELECT staffmembers.staffMemberSocialSecurityNumber,  \
                                        staffmembers.name, staffmembers.dateOfBirth, staffmembers.phone, staffmembers.role\
@@ -102,6 +81,28 @@ class StaffMemberQueries {
             throw error;
         }
         
+    };
+
+    //insert staff member
+    async insertStaffMember(request) {
+        
+        try {
+            var insertIntoStaffMemberQuery = 'INSERT INTO vaccine.staffmembers(staffMemberSocialSecurityNumber, name, role, phone, dateOfBirth) VALUES(?, ?, ?, ?, ?)';
+
+            const results = await dbQuery(insertIntoStaffMemberQuery, [
+                request.body.SSN,
+                request.body.name,
+                request.body.role,
+                request.body.phone,
+                request.body.dateOfBirth
+            ]);
+
+            return results;
+
+        } catch (error) {
+            throw error;
+        }
+
     };
 
 }

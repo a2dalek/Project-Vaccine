@@ -1,11 +1,9 @@
 const express = require('express');
 const route = express.Router();
+const {isAuth, isAdmin} = require('../app/auth/authMiddlewares');
 
 const staffMemberController = require('../app/controllers/staffMemberController');
 
-route.use('/all', staffMemberController.all);
-route.use('/:socialsecuritynumber', staffMemberController.getBySocialSecurityNumber);
-route.use('/', staffMemberController.getByVaccinationId);
-
+route.get('/all', isAuth, isAdmin, staffMemberController.all);
 
 module.exports = route;

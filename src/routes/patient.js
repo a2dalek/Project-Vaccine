@@ -1,10 +1,9 @@
 const express = require('express');
 const route = express.Router();
+const {isAuth, isAdmin, isThisUser} = require('../app/auth/authMiddlewares');
 
 const patientController = require('../app/controllers/patientController');
 
-route.use('/all', patientController.all);
-route.use('/:socialsecuritynumber', patientController.getBySocialSecurityNumber)
-
+route.get('/all', isAuth, isAdmin, patientController.all);
 
 module.exports = route;

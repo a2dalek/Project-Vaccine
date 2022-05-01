@@ -4,36 +4,29 @@ const DiagnoseQueries = require("../DB/diagnoseQueries");
 class DiagnosesController {
 
     // [GET] /all
+
     async all(req, res) {
         const results = await DiagnoseQueries.getAllDiagnoses();
         res.json({
             error: 0,
-            error_msg: "All diagnoses",
+            msg: "All diagnoses",
             data: results
         })
     }
 
-    // [GET] /?patientsocialsecuritynumber
+    // // [GET] /?SSN
 
-    async getByPatientSocialSecurityNumber(req, res) {
+    // async getByPatientSocialSecurityNumber(req, res) {
 
-        const requestBodySchema = Joi.object({
-            patientsocialsecuritynumber: Joi.string().required(),
-        });
+    //     // Add validation
 
-        try {
-            const validatedRequestBody = requestBodySchema.validate(req.query);
-        } catch (error) {
-            throw error;
-        }
-
-        const results = await DiagnoseQueries.getDiagnosesBySocialSecurityNumber(req.query.patientsocialsecuritynumber);
-        res.json({
-            error: 0,
-            error_msg: "Diagnoses by patient social security number",
-            data: results
-        })
-    }
+    //     const results = await DiagnoseQueries.getDiagnosesBySocialSecurityNumber(req.query.SSN);
+    //     res.json({
+    //         error: 0,
+    //         error_msg: "Diagnoses by patient social security number",
+    //         data: results
+    //     })
+    // }
 }
 
 module.exports = new DiagnosesController;

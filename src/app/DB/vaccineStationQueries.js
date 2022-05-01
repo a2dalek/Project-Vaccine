@@ -1,5 +1,3 @@
-const { func } = require('joi');
-const Joi = require('joi');
 const dbQuery = require('./ultis');
 const mysql = require('mysql');
 
@@ -9,12 +7,7 @@ class vaccineStationQueries {
 
     async getVaccineStationByID(Id) {
 
-        const responseBodySchema = Joi.object({
-            vaccineStationId: Joi.number().required(),
-            name: Joi.string().required(),
-            phone: Joi.string().required(),
-            address: Joi.string().required()
-        });
+        //TODO: add validation
 
         try {
             var getVaccineStationQuery = 'SELECT * \
@@ -23,7 +16,41 @@ class vaccineStationQueries {
             
             const vaccineStationsList = await dbQuery(getVaccineStationQuery);
             const vaccineStation = vaccineStationsList[0];
-            const validatedResults = responseBodySchema.validate(vaccineStation);
+            return vaccineStation;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    //Find all vaccine stations
+
+    async getAllVaccineStations() {
+
+        //TODO: add validation
+
+        try {
+            var getAllVaccineStationsQuery = 'SELECT * FROM vaccinestations';
+            
+            const vaccineStationsList = await dbQuery(getAllVaccineStationsQuery);
+            return vaccineStationsList;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    //Insert vaccine stations
+
+    async insertVaccineStations(insertValue) {
+
+        try {
+            var insertVaccineStationQuery = 'INSERT INTO vaccine.vaccinestations(name, phone, address) VALUES(?, ?, ?)';
+            var parameters = [
+                insertValue.name,
+                insertValue.phone,
+                insertValue.address
+            ];
+
+            const vaccineStation = await dbQuery(insertVaccineStationQuery, parameters);
             return vaccineStation;
         } catch (error) {
             throw error;

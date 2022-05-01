@@ -13,38 +13,38 @@ class staffMemberController {
         })
     }
 
-    // [GET] /staffmember?vaccinationId
+    // // [GET] /staffmember?vaccinationId
     
-    async getByVaccinationId(req, res) {
+    // async getByVaccinationId(req, res) {
         
-        const requestBodySchema = Joi.object({
-            vaccinationId: Joi.number().required(),
-        });
+    //     const requestBodySchema = Joi.object({
+    //         vaccinationId: Joi.number().required(),
+    //     });
 
-        try {
-            const validatedRequestBody = requestBodySchema.validate(req.query);
-        } catch (error) {
-            throw error;
-        }
+    //     try {
+    //         const validatedRequestBody = requestBodySchema.validate(req.query);
+    //     } catch (error) {
+    //         throw error;
+    //     }
 
-        const results = await StaffMemberQueries.getStaffMembersByVaccinationId(req.query.vaccinationId);
-        res.json({
-            error: 0,
-            error_msg: "Staff members by vaccinationId",
-            data: results
-        })
-    }
+    //     const results = await StaffMemberQueries.getStaffMembersByVaccinationId(req.query.vaccinationId);
+    //     res.json({
+    //         error: 0,
+    //         error_msg: "Staff members by vaccinationId",
+    //         data: results
+    //     })
+    // }
 
-    // [GET] :socialsecuritynumber
-    async getBySocialSecurityNumber(req, res) {
+    // // [GET] :socialsecuritynumber
+    // async getBySocialSecurityNumber(req, res) {
         
-        const results = await StaffMemberQueries.getStaffMemberBySocialSecurityNumber(req.param('socialsecuritynumber'));
-        res.json({
-            error: 0,
-            error_msg: "Staff member by social security number",
-            data: results
-        })
-    }
+    //     const results = await StaffMemberQueries.getStaffMemberBySocialSecurityNumber(req.param('SSN'));
+    //     res.json({
+    //         error: 0,
+    //         error_msg: "Staff member by social security number",
+    //         data: results
+    //     })
+    // }
 
 }
 

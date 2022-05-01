@@ -1,10 +1,10 @@
 const express = require('express');
+const { string } = require('joi');
 const route = express.Router();
+const {isAuth, isAdmin} = require('../app/auth/authMiddlewares');
 
 const diagnosesController = require('../app/controllers/diagnoseController');
 
-route.use('/all', diagnosesController.all);
-route.use('/', diagnosesController.getByPatientSocialSecurityNumber);
-
+route.get('/all', isAuth, isAdmin, diagnosesController.all);
 
 module.exports = route;
