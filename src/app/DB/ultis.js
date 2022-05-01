@@ -1,11 +1,12 @@
 const DB = require('../DB/DBconnect');
+const newError = require('../utils/Error/index');
 
 function dbQuery(databaseQuery, parameters) {
     return new Promise(data => {
         if (!parameters) {
             DB.DBcon.query(databaseQuery, function (error, result) {
                 if (error) {
-                    throw error;
+                    console.log(error);
                 }
                 try {
                     data(result);
@@ -18,7 +19,7 @@ function dbQuery(databaseQuery, parameters) {
         } else {
             DB.DBcon.query(databaseQuery, parameters, function (error, result) {
                 if (error) {
-                    throw error;
+                    console.log(error);
                 }
                 try {
                     data(result);
