@@ -1,7 +1,16 @@
 const express = require('express')
-const app = express()
-const port = 3000
+const cors = require('cors')
 
+const app = express()
+const port = 5000
+
+var corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const DB = require('./app/DB/DBconnect');
