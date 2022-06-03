@@ -1,4 +1,7 @@
-const Joi = require('joi');
+const Ajv = require("ajv");
+const ajv = new Ajv();
+const addFormats = require("ajv-formats");
+addFormats(ajv);
 const StaffMemberQueries = require("../DB/staffMemberQueries");
 
 class staffMemberController {
@@ -13,38 +16,44 @@ class staffMemberController {
         })
     }
 
-    // // [GET] /staffmember?vaccinationId
-    
-    // async getByVaccinationId(req, res) {
-        
-    //     const requestBodySchema = Joi.object({
-    //         vaccinationId: Joi.number().required(),
-    //     });
+    // [DELETE] /delete?vaccinationid&staffMemberSocialSecurityNumber
 
-    //     try {
-    //         const validatedRequestBody = requestBodySchema.validate(req.query);
-    //     } catch (error) {
-    //         throw error;
-    //     }
+    async deleteFromShift(req, res) {
 
-    //     const results = await StaffMemberQueries.getStaffMembersByVaccinationId(req.query.vaccinationId);
-    //     res.json({
-    //         error: 0,
-    //         error_msg: "Staff members by vaccinationId",
-    //         data: results
-    //     })
-    // }
+        const deleteFromShiftSchema = {
+            type: "object",
+            properties: {
+                vaccinationid : {
+                    type: "string",
+                },
+                staffMemberSocialSecurityNumber : {
+                    type: "string",
+                }
+            },
+            required: ["vaccinationid", "staffMemberSocialSecurityNumber"]
+        }
 
-    // // [GET] :socialsecuritynumber
-    // async getBySocialSecurityNumber(req, res) {
-        
-    //     const results = await StaffMemberQueries.getStaffMemberBySocialSecurityNumber(req.param('SSN'));
-    //     res.json({
-    //         error: 0,
-    //         error_msg: "Staff member by social security number",
-    //         data: results
-    //     })
-    // }
+        const valid = ajv.validate(deleteFromShiftSchema, req.query);
+        if (!valid) {
+            res.json({
+                error: 10051,
+                error_type: "Invalid delete staff member from shifts body",
+                data: ajv.errors
+            })
+            return;
+        }
+
+        try {
+            const results = await StaffMemberQueries.deleteFromShifts(req.query.vaccinationid, req.query.staffMemberSocialSecurityNumber);
+            res.json({
+                error: 0,
+                msg: "Delete shift successfully",
+                data: results
+            })
+        } catch (error) {
+            res.json(error)
+        }  
+    }
 
 }
 

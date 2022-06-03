@@ -1,6 +1,7 @@
 const dbQuery = require('./ultis');
 const diagnoseQueries = require('./diagnoseQueries');
 const mysql = require('mysql');
+const newError = require('../utils/Error/index');
 
 class PatientQueries {
 
@@ -116,6 +117,67 @@ class PatientQueries {
         }
 
     }
+
+    //Delete patient from registration
+
+    async deleteFromRegistrations(ID, SSN) {
+
+        try {
+
+            var findRegistrationQuery = "SELECT * FROM vaccineregistrations WHERE vaccinationId=? AND patientSocialSecurityNumber=?"
+            var findRegistrationParameter = [
+                ID,
+                SSN
+            ]
+
+            const shiftsList = await dbQuery(findRegistrationQuery, findRegistrationParameter);
+            if (!shiftsList[0]) {
+                throw new newError({
+                    error: 11012,
+                    error_type: "This registration doesn't exist",
+                    data:[]
+                })
+            }
+            
+            var findVaccinationQuery = "SELECT * FROM vaccinations WHERE vaccinationId=?"
+            var findVaccinationParameter = [
+                ID
+            ]
+
+            const vaccinationsList = await dbQuery(findVaccinationQuery, findVaccinationParameter);
+            if (!vaccinationsList[0]) {
+                throw new newError({
+                    error: 11007,
+                    error_type: "This vaccination doesn't exist",
+                    data:[]
+                })
+            }
+            
+            var vaccination = vaccinationsList[0];
+            var today = new Date();
+            var currentDate = new Date(vaccination.date);
+
+            if (today > currentDate) {
+                throw new newError({
+                    error: 11011,
+                    error_type: "Can not delete a shift in the past",
+                    data:[]
+                })
+            }
+
+            var deleteRegistrationQuery = 'DELETE FROM vaccineregistrations WHERE vaccinationId=? AND patientSocialSecurityNumber=?';
+            var deleteRegistrationParameters = [
+                ID,
+                SSN
+            ];
+            
+            const result = await dbQuery(deleteRegistrationQuery, deleteRegistrationParameters);
+            
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    };
 
 }
 

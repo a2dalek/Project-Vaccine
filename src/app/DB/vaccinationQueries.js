@@ -360,6 +360,61 @@ class VaccinationsQueries {
             throw error;
         }
     };
+
+    //Delete vaccination
+
+    async deleteVaccinationByID(ID) {
+
+        try {
+
+            var findVaccinationQuery = "SELECT * FROM vaccinations WHERE vaccinationId=?"
+            var findVaccinationParameter = [
+                ID
+            ]
+
+            const vaccinationsList = await dbQuery(findVaccinationQuery, findVaccinationParameter);
+            if (!vaccinationsList[0]) {
+                throw new newError({
+                    error: 11007,
+                    error_type: "This vaccination doesn't exist",
+                    data:[]
+                })
+            }
+            
+            var vaccination = vaccinationsList[0];
+            var today = new Date();
+            var currentDate = new Date(vaccination.date)
+            if (today > currentDate) {
+                throw new newError({
+                    error: 11008,
+                    error_type: "Can not delete a vaccination in the past",
+                    data:[]
+                })
+            }
+
+            var deleteShiftQuery = 'DELETE FROM shifts WHERE vaccinationID=?';
+            var deleteShiftQueryParameters = [
+                ID
+            ];
+            await dbQuery(deleteShiftQuery, deleteShiftQueryParameters);
+
+            var deleteVaccineRegistrationsQuery = 'DELETE FROM vaccineregistrations WHERE vaccinationID=?';
+            var deleteVaccineRegistrationsQueryParameters = [
+                ID
+            ];
+            await dbQuery(deleteVaccineRegistrationsQuery, deleteVaccineRegistrationsQueryParameters);
+
+            var deleteVaccinationQuery = 'DELETE FROM vaccinations WHERE vaccinationID=?';
+            var parameters = [
+                ID
+            ];
+
+            const result = await dbQuery(deleteVaccinationQuery, parameters);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = new VaccinationsQueries;
