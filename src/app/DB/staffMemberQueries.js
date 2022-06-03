@@ -30,14 +30,26 @@ class StaffMemberQueries {
             AND shifts.staffMemberSocialSecurityNumber=' + mysql.escape(socialSecurityNumber);
                                                        
             const vaccinationsList = await dbQuery(getVaccinationsByStaffMemberSocialSecurityNumberQuery);
-            // const validatedResults = responseBodySchema.validate(vaccineStation);
+            
+            var today = new Date();
+            var future = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today <= currentDate);
+            });
+
+            var past = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today > currentDate)
+            });
+
+
             return {
                 staffMemberSocialSecurityNumber: staffMember.staffMemberSocialSecurityNumber,
                 name: staffMember.name,
                 dateOfBirth: staffMember.dateOfBirth,
                 phone: staffMember.phone,
                 role: staffMember.role,
-                vaccinationsTokePartIn: vaccinationsList
+                vaccinationsTokePartIn: {future, past}
             };
         } catch (error) {
             throw error;

@@ -175,6 +175,43 @@ class VaccinationsController {
             res.json(error)
         }  
     }
+
+    // [DELETE] /delete
+
+    async deleteVaccinationById(req, res) {
+
+        const deleteVaccinationByIDSchema = {
+            type: "object",
+            properties: {
+                ID : {
+                    type: "number",
+                    minimum: 1
+                }
+            },
+            required: ["ID"]
+        }
+
+        const valid = ajv.validate(deleteVaccinationByIDSchema, req.body);
+        if (!valid) {
+            res.json({
+                error: 10051,
+                error_type: "Invalid delete vaccination by ID body",
+                data: ajv.errors
+            })
+            return;
+        }
+
+        try {
+            const results = await vaccinationsQuery.deleteVaccinationByID(req.body.ID);
+            res.json({
+                error: 0,
+                msg: "Delete vaccination successfully",
+                data: results
+            })
+        } catch (error) {
+            res.json(error)
+        }  
+    }
 }
 
 module.exports = new VaccinationsController;

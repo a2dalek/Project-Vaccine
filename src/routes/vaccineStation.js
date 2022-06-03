@@ -5,7 +5,7 @@ const vaccineStationController = require('../app/controllers/vaccineStationContr
 const {isAuth, isAdmin} = require('../app/auth/authMiddlewares');
 
 route.get('/all', vaccineStationController.all);
-route.post('/new', isAuth, isAdmin, vaccineStationController.insertVaccineStation)
-route.get('/:ID', vaccineStationController.getByID)
+route.post('/new', isAuth, isAdmin, vaccineStationController.insertVaccineStation);
+route.get('/:ID', vaccineStationController.getByID);
 
 module.exports = route;

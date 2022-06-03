@@ -67,6 +67,17 @@ class PatientQueries {
             AND vaccineregistrations.patientSocialSecurityNumber=' + mysql.escape(SSN);
                                                        
             const vaccinationsList = await dbQuery(getVaccinationsByPatientSocialSecurityNumberQuery);
+            
+            var today = new Date();
+            var future = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today <= currentDate);
+            });
+
+            var past = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today > currentDate)
+            });
 
             const diagnosesList = await diagnoseQueries.getDiagnosesBySSN(SSN);
             
@@ -75,7 +86,7 @@ class PatientQueries {
                 name: patient.name,
                 gender: patient.gender,
                 dateOfBirth: patient.dateOfBirth,
-                vaccinationsList: vaccinationsList,
+                vaccinationsList: {future, past},
                 diagnosesList: diagnosesList
             }
 
