@@ -9,7 +9,7 @@ class DiagnoseQueries {
 
         //TODO: Add validation
 
-        var getAllDiagnosesQuery = 'SELECT diagnoseID, patientSocialSecurityNumber, symptomName, criticality, date \
+        var getAllDiagnosesQuery = 'SELECT patientSocialSecurityNumber, symptomName, criticality, date \
                                        FROM diagnoses \
                                        INNER JOIN symptoms \
                                        ON diagnoses.symptomID=symptoms.symptomID';
@@ -29,7 +29,7 @@ class DiagnoseQueries {
 
         //TODO: add validation
 
-        var getDiagnosesBySocialSecurityNumberQuery = 'SELECT diagnoseID, symptomName, criticality, date \
+        var getDiagnosesBySocialSecurityNumberQuery = 'SELECT symptomName, criticality, date \
                                                        FROM diagnoses \
                                                        INNER JOIN symptoms \
                                                        ON diagnoses.symptomID=symptoms.symptomID \

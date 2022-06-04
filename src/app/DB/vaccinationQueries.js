@@ -184,17 +184,17 @@ class VaccinationsQueries {
                 })
             }
 
-            var findShiftIDQuery = 
-            "SELECT shiftID FROM shifts WHERE staffMemberSocialSecurityNumber=? AND vaccinationID IN \
+            var findShiftQuery = 
+            "SELECT * FROM shifts WHERE staffMemberSocialSecurityNumber=? AND vaccinationID IN \
                 (SELECT vaccinationID FROM vaccinations WHERE date=?)";
 
-            var findShiftIDParameter = [
+            var findShiftParameter = [
                 insertValue.SSN,
                 queryDay
             ]
 
-            const shiftIDList = await dbQuery(findShiftIDQuery, findShiftIDParameter);
-            if (shiftIDList[0]) {
+            const shiftList = await dbQuery(findShiftQuery, findShiftParameter);
+            if (shiftList[0]) {
                 throw new newError({
                     error: 10022,
                     error_type: "This staff member will take part in other vaccination in the same day",
