@@ -2,6 +2,7 @@ const Joi = require('joi');
 const dbQuery = require('./ultis');
 const mysql = require('mysql');
 const vaccinationsQueries = require('./vaccinationQueries');
+const newError = require('../utils/Error/index');
 
 class StaffMemberQueries {
 
@@ -30,14 +31,26 @@ class StaffMemberQueries {
             AND shifts.staffMemberSocialSecurityNumber=' + mysql.escape(socialSecurityNumber);
                                                        
             const vaccinationsList = await dbQuery(getVaccinationsByStaffMemberSocialSecurityNumberQuery);
-            // const validatedResults = responseBodySchema.validate(vaccineStation);
+            
+            var today = new Date();
+            var future = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today <= currentDate);
+            });
+
+            var past = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today > currentDate)
+            });
+
+
             return {
                 staffMemberSocialSecurityNumber: staffMember.staffMemberSocialSecurityNumber,
                 name: staffMember.name,
                 dateOfBirth: staffMember.dateOfBirth,
                 phone: staffMember.phone,
                 role: staffMember.role,
-                vaccinationsTokePartIn: vaccinationsList
+                vaccinationsTokePartIn: {future, past}
             };
         } catch (error) {
             throw error;
@@ -105,6 +118,66 @@ class StaffMemberQueries {
 
     };
 
+    //Delete staff member from shift
+
+    async deleteFromShifts(ID, SSN) {
+
+        try {
+
+            var findShiftQuery = "SELECT * FROM shifts WHERE vaccinationId=? AND staffMemberSocialSecurityNumber=?"
+            var findShiftParameter = [
+                ID,
+                SSN
+            ]
+
+            const shiftsList = await dbQuery(findShiftQuery, findShiftParameter);
+            if (!shiftsList[0]) {
+                throw new newError({
+                    error: 11010,
+                    error_type: "This shift doesn't exist",
+                    data:[]
+                })
+            }
+            
+            var findVaccinationQuery = "SELECT * FROM vaccinations WHERE vaccinationId=?"
+            var findVaccinationParameter = [
+                ID
+            ]
+
+            const vaccinationsList = await dbQuery(findVaccinationQuery, findVaccinationParameter);
+            if (!vaccinationsList[0]) {
+                throw new newError({
+                    error: 11007,
+                    error_type: "This vaccination doesn't exist",
+                    data:[]
+                })
+            }
+            
+            var vaccination = vaccinationsList[0];
+            var today = new Date();
+            var currentDate = new Date(vaccination.date);
+
+            if (today > currentDate) {
+                throw new newError({
+                    error: 11011,
+                    error_type: "Can not delete a shift in the past",
+                    data:[]
+                })
+            }
+
+            var deleteShiftQuery = 'DELETE FROM shifts WHERE vaccinationId=? AND staffMemberSocialSecurityNumber=?';
+            var deleteShiftQueryParameters = [
+                ID,
+                SSN
+            ];
+            
+            const result = await dbQuery(deleteShiftQuery, deleteShiftQueryParameters);
+            
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = new StaffMemberQueries;

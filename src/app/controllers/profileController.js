@@ -7,7 +7,7 @@ class ProfileController {
     async getProfileBySSN(req, res) {
         
         var results;
-        if (req.user.userType == 'user') {
+        if (req.query.usertype == 'user') {
             results = await patientQueries.getPatientBySSN(req.param('SSN'));
         } else {
             results = await staffMemberQueries.getStaffMemberBySocialSecurityNumber(req.param('SSN'));

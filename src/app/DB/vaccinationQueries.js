@@ -13,14 +13,25 @@ class VaccinationsQueries {
 
         //TODO: add validation
 
-        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, limitNumber, date, vaccineType \
+        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, vaccineStations.address AS address, limitNumber, date, vaccineType \
                                        FROM vaccinations \
                                        LEFT JOIN vaccineStations \
                                        ON vaccinations.vaccineStationId=vaccineStations.vaccineStationId';
              
         try {
             const vaccinationsList = await dbQuery(getAllVaccinationsQuery);
-            return vaccinationsList;
+            var today = new Date();
+            var future = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today <= currentDate);
+            });
+
+            var past = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today > currentDate)
+            });
+
+            return {future, past};
         } catch (error) {
             throw error;
         }
@@ -272,6 +283,134 @@ class VaccinationsQueries {
 
             const vaccineRegistrations = await dbQuery(insertVaccineRegistrationsQuery, parameters);
             return vaccineRegistrations;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    //Add patient into vaccination
+
+    async assignPatientToVaccination(insertValue) {
+
+        try {
+
+            const vaccination = await this.getVaccinationByID(insertValue.vaccinationID);
+
+            var today = new Date();
+            var queryDay = new Date(vaccination.date);
+
+            if (today >= queryDay) {
+                throw new newError({
+                    error: 10021,
+                    error_type: "Can't assign patient to vaccination in the past",
+                    data: []
+                })
+            }
+
+            const numberAssigned = Object.keys(vaccination.patientsList).length;
+
+            if (numberAssigned >= vaccination.limitNumber) {
+                throw new newError({
+                    error: 10029,
+                    error_type: "Out of limit",
+                    data: []
+                })
+            }
+            
+            const patient = await patientQueries.getPatientBySSN(insertValue.SSN);
+
+            const isDangerous = patient.diagnosesList.filter(function(diagnoses) { return diagnoses.criticality === '1'}).length;
+            if (isDangerous > 0) {
+                throw new newError({
+                    error: 10030,
+                    error_type: "Having dangerous symptoms",
+                    data: []
+                })
+            }
+
+            
+            var dateDiffQuery = 
+            "SELECT MAX(DATEDIFF(?,date)) AS dateDiff FROM vaccinations WHERE vaccinationID IN \
+               (SELECT vaccinationID FROM vaccineregistrations WHERE patientSocialSecurityNumber=?)";
+
+            var dateDiffParameter = [
+                vaccination.date,
+                insertValue.SSN,
+            ]
+
+            const dateDiff = await dbQuery(dateDiffQuery, dateDiffParameter);
+
+            if (dateDiff[0] && dateDiff[0].dateDiff <= 60) {
+                throw new newError({
+                    error: 10032,
+                    error_type: "Time between two vaccinations must be longer than 60 days",
+                    data:[]
+                })
+            }
+
+            var insertVaccineRegistrationsQuery = 'INSERT INTO vaccine.vaccineregistrations(patientSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
+            var parameters = [
+                insertValue.SSN,
+                insertValue.vaccinationID,
+            ];
+
+            const vaccineRegistrations = await dbQuery(insertVaccineRegistrationsQuery, parameters);
+            return vaccineRegistrations;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    //Delete vaccination
+
+    async deleteVaccinationByID(ID) {
+
+        try {
+
+            var findVaccinationQuery = "SELECT * FROM vaccinations WHERE vaccinationId=?"
+            var findVaccinationParameter = [
+                ID
+            ]
+
+            const vaccinationsList = await dbQuery(findVaccinationQuery, findVaccinationParameter);
+            if (!vaccinationsList[0]) {
+                throw new newError({
+                    error: 11007,
+                    error_type: "This vaccination doesn't exist",
+                    data:[]
+                })
+            }
+            
+            var vaccination = vaccinationsList[0];
+            var today = new Date();
+            var currentDate = new Date(vaccination.date)
+            if (today > currentDate) {
+                throw new newError({
+                    error: 11008,
+                    error_type: "Can not delete a vaccination in the past",
+                    data:[]
+                })
+            }
+
+            var deleteShiftQuery = 'DELETE FROM shifts WHERE vaccinationID=?';
+            var deleteShiftQueryParameters = [
+                ID
+            ];
+            await dbQuery(deleteShiftQuery, deleteShiftQueryParameters);
+
+            var deleteVaccineRegistrationsQuery = 'DELETE FROM vaccineregistrations WHERE vaccinationID=?';
+            var deleteVaccineRegistrationsQueryParameters = [
+                ID
+            ];
+            await dbQuery(deleteVaccineRegistrationsQuery, deleteVaccineRegistrationsQueryParameters);
+
+            var deleteVaccinationQuery = 'DELETE FROM vaccinations WHERE vaccinationID=?';
+            var parameters = [
+                ID
+            ];
+
+            const result = await dbQuery(deleteVaccinationQuery, parameters);
+            return result;
         } catch (error) {
             throw error;
         }

@@ -80,7 +80,7 @@ exports.canViewUser = async (req, res, next) => {
         })
 		return;
 	}
-    
+
 	return next();
 };
 
