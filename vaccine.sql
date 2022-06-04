@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 04, 2022 lúc 04:59 PM
+-- Thời gian đã tạo: Th6 04, 2022 lúc 08:50 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.2
 
@@ -539,6 +539,7 @@ CREATE TABLE `vaccineregistrations` (
 
 INSERT INTO `vaccineregistrations` (`patientSocialSecurityNumber`, `vaccinationID`) VALUES
 ('000128-4813', 16),
+('000128-4813', 26),
 ('000325-6271', 3),
 ('000325-6271', 5),
 ('000425-224A', 2),

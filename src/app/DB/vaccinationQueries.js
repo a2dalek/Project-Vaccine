@@ -38,6 +38,69 @@ class VaccinationsQueries {
         
     };
 
+    //Find all vaccinations
+
+    async getAllVaccinationsForUser(SSN) {
+
+        //TODO: add validation
+
+        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, vaccineStations.address AS address, limitNumber, date, vaccineType \
+                                       FROM vaccinations \
+                                       LEFT JOIN vaccineStations \
+                                       ON vaccinations.vaccineStationId=vaccineStations.vaccineStationId';
+             
+        try {
+            const vaccinationsList = await dbQuery(getAllVaccinationsQuery);
+            var today = new Date();
+            var future = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today <= currentDate);
+            });
+
+            var past = vaccinationsList.filter(vaccination => {
+                var currentDate = new Date(vaccination.date);
+                return (today > currentDate)
+            });
+            
+            var getVaccinationsByPatientSSN = 
+            'SELECT vaccinations.vaccinationID AS vaccinationID\
+            FROM vaccinations\
+            INNER JOIN vaccinestations\
+            ON vaccinations.vaccineStationId = vaccinestations.vaccineStationId\
+            INNER JOIN vaccineregistrations\
+            ON vaccineregistrations.vaccinationID=vaccinations.vaccinationID\
+            AND vaccineregistrations.patientSocialSecurityNumber=' + mysql.escape(SSN);
+                                                       
+            const userVaccinationsList = await dbQuery(getVaccinationsByPatientSSN);
+            
+            var assigned = future.filter(vaccination => {
+                var ok = false;
+                userVaccinationsList.forEach(userVaccination => {
+                    if (vaccination.vaccinationID == userVaccination.vaccinationID) {
+                        ok = true;
+                    }
+                });
+                return ok;
+            });
+
+            var notAssigned = future.filter(vaccination => {
+                var ok = false;
+                userVaccinationsList.forEach(userVaccination => {
+                    if (vaccination.vaccinationID == userVaccination.vaccinationID) {
+                        ok = true;
+                    }
+                });
+                return (!ok);
+            });
+            console.log(userVaccinationsList);
+            return {assigned, notAssigned, past};
+        } catch (error) {
+            throw error;
+        }
+        
+    };
+
+
     //Find vaccination by id
 
     async getVaccinationByID(Id) {

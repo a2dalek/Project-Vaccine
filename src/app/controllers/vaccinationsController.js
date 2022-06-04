@@ -8,6 +8,17 @@ class VaccinationsController {
 
     // [GET] /all
     async all(req, res) {
+        var role = req.user.userType;
+        if (role == 'user') {
+            const results = await vaccinationsQuery.getAllVaccinationsForUser(req.user.SSN);
+            res.json({
+                error: 0,
+                error_msg: "All vaccinations",
+                data: results
+            })
+            return;
+        }
+
         const results = await vaccinationsQuery.getAllVaccinations();
         res.json({
             error: 0,
