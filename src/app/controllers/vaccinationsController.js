@@ -222,6 +222,19 @@ class VaccinationsController {
             res.json(error)
         }  
     }
+
+    // /staffList/:ID
+    async getStaffList(req, res) {
+
+        //TODO: get staff members list of the vaccination
+        
+        const results = await vaccinationsQuery.getStaffList(req.param('ID'));
+        res.json({
+            error: 0,
+            error_msg: "Staff members list by vaccination id",
+            data: results
+        })
+    }
 }
 
 module.exports = new VaccinationsController;

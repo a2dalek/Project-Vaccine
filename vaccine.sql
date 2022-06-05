@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 04, 2022 lúc 08:50 PM
+-- Thời gian đã tạo: Th6 05, 2022 lúc 07:06 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.2
 
@@ -348,6 +348,7 @@ CREATE TABLE `shifts` (
 INSERT INTO `shifts` (`staffMemberSocialSecurityNumber`, `vaccinationID`) VALUES
 ('19571227-3064', 1),
 ('19571227-3064', 3),
+('19571227-3064', 28),
 ('19610330-6066', 6),
 ('19630812-6581', 4),
 ('19660601-1051', 6),

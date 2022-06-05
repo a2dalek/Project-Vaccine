@@ -178,6 +178,27 @@ class StaffMemberQueries {
             throw error;
         }
     };
+
+    //get free staff members
+
+    async getFreeStaffMembers(date) {
+
+        try {
+
+            var findStaffMembersQuery = "SELECT * FROM staffmembers WHERE staffmembers.staffMemberSocialSecurityNumber NOT IN\
+                                    (SELECT shifts.staffMemberSocialSecurityNumber FROM shifts WHERE shifts.vaccinationId IN\
+                                        (SELECT vaccinationID FROM vaccinations WHERE date=?)\
+                                    );"
+            var findStaffMembersParameter = [
+                date
+            ]
+
+            const staffMemberList = await dbQuery(findStaffMembersQuery, findStaffMembersParameter);
+            return staffMemberList;
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = new StaffMemberQueries;

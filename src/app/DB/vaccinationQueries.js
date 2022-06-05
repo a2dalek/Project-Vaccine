@@ -478,6 +478,35 @@ class VaccinationsQueries {
             throw error;
         }
     };
+
+    //Delete vaccination
+
+    async getStaffList(ID) {
+
+        try {
+
+            var getVaccinationByIdQuery = 'SELECT * \
+                                  FROM vaccinations \
+                                  WHERE vaccinationID=' + mysql.escape(ID);
+             
+            const vaccinationList = await dbQuery(getVaccinationByIdQuery);
+            if (!vaccinationList[0]) {
+                throw new newError({
+                    error: 10020,
+                    error_type: "This vaccination does not exist",
+                    data:[]
+                })
+            }
+            const vaccination = vaccinationList[0];
+
+            const staffMemberList = await staffMemberQueries.getStaffMembersByVaccinationId(ID);
+            const freeMemberList = await staffMemberQueries.getFreeStaffMembers(vaccination.date);
+            
+            return {staffMemberList, freeMemberList};
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 module.exports = new VaccinationsQueries;

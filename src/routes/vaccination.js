@@ -10,5 +10,6 @@ route.post('/assign', isAuth, isThisUser, vaccinationsController.assign);
 route.get('/:ID', isAuth, isAdmin, vaccinationsController.getByID);
 route.post('/new', isAuth, isAdmin, vaccinationsController.insert);
 route.delete('/delete', isAuth, isAdmin, vaccinationsController.deleteVaccinationById);
+route.get('/staffList/:ID', isAuth, isAdmin, vaccinationsController.getStaffList);
 
 module.exports = route;
