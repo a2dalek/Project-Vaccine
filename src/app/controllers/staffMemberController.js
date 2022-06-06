@@ -11,7 +11,7 @@ class staffMemberController {
         const results = await StaffMemberQueries.getAllStaffMembers();
         res.json({
             error: 0,
-            error_msg: "All staff members",
+            msg: "All staff members",
             data: results
         })
     }

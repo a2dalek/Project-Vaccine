@@ -13,7 +13,7 @@ class VaccinationsController {
             const results = await vaccinationsQuery.getAllVaccinationsForUser(req.user.SSN);
             res.json({
                 error: 0,
-                error_msg: "All vaccinations",
+                msg: "All vaccinations",
                 data: results
             })
             return;
@@ -22,7 +22,7 @@ class VaccinationsController {
         const results = await vaccinationsQuery.getAllVaccinations();
         res.json({
             error: 0,
-            error_msg: "All vaccinations",
+            msg: "All vaccinations",
             data: results
         })
     }
@@ -35,7 +35,7 @@ class VaccinationsController {
         const results = await vaccinationsQuery.getVaccinationByID(req.param('ID'));
         res.json({
             error: 0,
-            error_msg: "Vaccination by id",
+            msg: "Vaccination by id",
             data: results
         })
     }
@@ -231,7 +231,7 @@ class VaccinationsController {
         const results = await vaccinationsQuery.getStaffList(req.param('ID'));
         res.json({
             error: 0,
-            error_msg: "Staff members list by vaccination id",
+            msg: "Staff members list by vaccination id",
             data: results
         })
     }

@@ -1,4 +1,4 @@
-const accountQueries = require("../DB/accountQueries");
+const AuthQueries = require("../DB/authQueries");
 const authMethod = require("../auth/authMethods");
 const Ajv = require("ajv");
 const ajv = new Ajv();
@@ -175,6 +175,18 @@ class AuthController {
                 SSN: SSN,
                 userType: account.userType
             }
+        });
+    }
+
+    // [GET]/
+    async getType(req, res) {
+        
+        const results = await AuthQueries.getTypeSSN(req.param('SSN'));
+
+        res.json({
+            error: 0,
+            msg: "user profile",
+            data: results
         });
     }
 }

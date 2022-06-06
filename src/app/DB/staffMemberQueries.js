@@ -19,7 +19,6 @@ class StaffMemberQueries {
             
             const staffMembersList = await dbQuery(getStaffMemberBySocialSecurityNumberQuery);
             const staffMember = staffMembersList[0];
-            console.log(staffMember)
             
             var getVaccinationsByStaffMemberSocialSecurityNumberQuery = 
             'SELECT vaccinations.vaccinationID, vaccinestations.name, vaccinations.limitNumber, vaccinations.date, vaccinations.vaccineType\
