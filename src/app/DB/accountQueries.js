@@ -48,7 +48,7 @@ class AccountQueries {
 
             const hashPass = await bcrypt.hashSync(request.body.password);
 
-            var insertIntoAccountQuery = 'INSERT INTO vaccine.account(socialSecurityNumber, password, userType) VALUES(?, ?, ?)';
+            var insertIntoAccountQuery = 'INSERT INTO account(socialSecurityNumber, password, userType) VALUES(?, ?, ?)';
 
             const account = await dbQuery(insertIntoAccountQuery, [
                 request.body.SSN,

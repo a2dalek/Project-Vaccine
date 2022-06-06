@@ -102,7 +102,7 @@ class PatientQueries {
     async insertPatient(request) {
         
         try {
-            var insertIntoPatientQuery = 'INSERT INTO vaccine.patients(patientSocialSecurityNumber, name, gender, dateOfBirth) VALUES(?, ?, ?, ?)';
+            var insertIntoPatientQuery = 'INSERT INTO patients(patientSocialSecurityNumber, name, gender, dateOfBirth) VALUES(?, ?, ?, ?)';
 
             const results = await dbQuery(insertIntoPatientQuery, [
                 request.body.SSN,

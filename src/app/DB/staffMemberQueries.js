@@ -99,7 +99,7 @@ class StaffMemberQueries {
     async insertStaffMember(request) {
         
         try {
-            var insertIntoStaffMemberQuery = 'INSERT INTO vaccine.staffmembers(staffMemberSocialSecurityNumber, name, role, phone, dateOfBirth) VALUES(?, ?, ?, ?, ?)';
+            var insertIntoStaffMemberQuery = 'INSERT INTO staffmembers(staffMemberSocialSecurityNumber, name, role, phone, dateOfBirth) VALUES(?, ?, ?, ?, ?)';
 
             const results = await dbQuery(insertIntoStaffMemberQuery, [
                 request.body.SSN,

@@ -13,10 +13,10 @@ class VaccinationsQueries {
 
         //TODO: add validation
 
-        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, vaccineStations.address AS address, limitNumber, date, vaccineType \
+        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, vaccinestations.address AS address, limitNumber, date, vaccineType \
                                        FROM vaccinations \
-                                       LEFT JOIN vaccineStations \
-                                       ON vaccinations.vaccineStationId=vaccineStations.vaccineStationId';
+                                       LEFT JOIN vaccinestations \
+                                       ON vaccinations.vaccineStationId=vaccinestations.vaccineStationId';
              
         try {
             const vaccinationsList = await dbQuery(getAllVaccinationsQuery);
@@ -44,10 +44,10 @@ class VaccinationsQueries {
 
         //TODO: add validation
 
-        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, vaccineStations.address AS address, limitNumber, date, vaccineType \
+        var getAllVaccinationsQuery = 'SELECT vaccinationID, name, vaccinestations.address AS address, limitNumber, date, vaccineType \
                                        FROM vaccinations \
-                                       LEFT JOIN vaccineStations \
-                                       ON vaccinations.vaccineStationId=vaccineStations.vaccineStationId';
+                                       LEFT JOIN vaccinestations \
+                                       ON vaccinations.vaccineStationId=vaccinestations.vaccineStationId';
              
         try {
             const vaccinationsList = await dbQuery(getAllVaccinationsQuery);
@@ -92,7 +92,7 @@ class VaccinationsQueries {
                 });
                 return (!ok);
             });
-            console.log(userVaccinationsList);
+
             return {assigned, notAssigned, past};
         } catch (error) {
             throw error;
@@ -213,7 +213,7 @@ class VaccinationsQueries {
                 })
             }
 
-            var insertVaccinationQuery = 'INSERT INTO vaccine.vaccinations(vaccineStationId, limitNumber, date, vaccineType) VALUES(?, ?, ?, ?)';
+            var insertVaccinationQuery = 'INSERT INTO vaccinations(vaccineStationId, limitNumber, date, vaccineType) VALUES(?, ?, ?, ?)';
             var parameters = [
                 insertValue.vaccineStationId,
                 insertValue.limitNumber,
@@ -265,7 +265,7 @@ class VaccinationsQueries {
                 })
             }
 
-            var insertShiftQuery = 'INSERT INTO vaccine.shifts(staffMemberSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
+            var insertShiftQuery = 'INSERT INTO shifts(staffMemberSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
             var parameters = [
                 insertValue.SSN,
                 insertValue.vaccinationID,
@@ -338,7 +338,7 @@ class VaccinationsQueries {
                 })
             }
 
-            var insertVaccineRegistrationsQuery = 'INSERT INTO vaccine.vaccineregistrations(patientSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
+            var insertVaccineRegistrationsQuery = 'INSERT INTO vaccineregistrations(patientSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
             var parameters = [
                 insertValue.SSN,
                 insertValue.vaccinationID,
@@ -411,7 +411,7 @@ class VaccinationsQueries {
                 })
             }
 
-            var insertVaccineRegistrationsQuery = 'INSERT INTO vaccine.vaccineregistrations(patientSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
+            var insertVaccineRegistrationsQuery = 'INSERT INTO vaccineregistrations(patientSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
             var parameters = [
                 insertValue.SSN,
                 insertValue.vaccinationID,

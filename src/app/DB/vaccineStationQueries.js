@@ -43,7 +43,7 @@ class vaccineStationQueries {
     async insertVaccineStations(insertValue) {
 
         try {
-            var insertVaccineStationQuery = 'INSERT INTO vaccine.vaccinestations(name, phone, address) VALUES(?, ?, ?)';
+            var insertVaccineStationQuery = 'INSERT INTO vaccinestations(name, phone, address) VALUES(?, ?, ?)';
             var parameters = [
                 insertValue.name,
                 insertValue.phone,
