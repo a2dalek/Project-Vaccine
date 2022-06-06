@@ -1,4 +1,5 @@
 const AuthQueries = require("../DB/authQueries");
+const accountQueries = require("../DB/accountQueries");
 const authMethod = require("../auth/authMethods");
 const Ajv = require("ajv");
 const ajv = new Ajv();
