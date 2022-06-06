@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 05, 2022 lúc 08:11 PM
+-- Thời gian đã tạo: Th6 06, 2022 lúc 03:43 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 8.1.2
 
@@ -407,7 +407,6 @@ CREATE TABLE `staffmembers` (
 --
 
 INSERT INTO `staffmembers` (`staffMemberSocialSecurityNumber`, `name`, `dateOfBirth`, `phone`, `role`) VALUES
-('18010236-109E', 'Pear Cut Mountain', '1970-02-26', '040-114-0776', 'admin'),
 ('19571227-3064', 'Norwood Murphy', '1957-12-27', '044-488-4064', 'nurse'),
 ('19610330-6066', 'Nadia Jacobson', '1961-03-30', '041-144-8822', 'doctor'),
 ('19630812-6581', 'Jazlyn Schneider', '1963-08-12', '040-868-2528', 'nurse'),
