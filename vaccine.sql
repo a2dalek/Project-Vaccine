@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.7.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 06, 2022 lúc 03:43 AM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 8.1.2
+-- Máy chủ: sql6.freemysqlhosting.net
+-- Thời gian đã tạo: Th6 08, 2022 lúc 02:55 PM
+-- Phiên bản máy phục vụ: 5.5.62-0ubuntu0.14.04.1
+-- Phiên bản PHP: 7.0.33-0ubuntu0.16.04.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `vaccine`
+-- Cơ sở dữ liệu: `sql6497958`
 --
 
 -- --------------------------------------------------------
@@ -41,7 +42,14 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`accountID`, `socialSecurityNumber`, `password`, `userType`) VALUES
 (6, '18010236-109E', '$2a$10$HVfKLoH/hIrS5GgtzSK7h.7Ud38OYs35woi4paKw44ycIcN6s76cC', 'admin'),
 (10, '000128-4813', '$2a$10$cGTwa6IxYxyyufc91aLXXOrL4hSrJFbbBIrh0.MfbDKTenXz9xRKi', 'user'),
-(12, '010101-97E', '$2a$10$JuA/TiK.ycRZCjr3pNkaPuyYljybc4JqIIhM/m7tYrDgXSu/MXoS.', 'user');
+(12, '010101-97E', '$2a$10$JuA/TiK.ycRZCjr3pNkaPuyYljybc4JqIIhM/m7tYrDgXSu/MXoS.', 'user'),
+(13, 'lmao123-lmao', '$2a$10$JmYhMnspEDnC9PxXjUv6OO.BS42g8vXGMcvZcb0DODeHJDumm0ma6', 'user'),
+(14, 'duyleson123', '$2a$10$gJf0KaQC6jeKYmE/5grl3OLtwYfVu0/Q0Sk/fi7Ph.V12mZlsue3q', 'user'),
+(15, '9tang-dungken', '$2a$10$arj7K5RGhDePisi0qlAnn.MO1rUYNDGX3R7cE21YKemgF8qSmcE36', 'user'),
+(16, '0001387-87N5', '$2a$10$0KGCMkuY.wFcuSY8v3/z5uHwQ4Bd9m3EY2ph3XHFbXSSiJByL5vLa', 'user'),
+(17, '123123', '$2a$10$AgcQxk7rl0zqmPvmr6bqHO.uw8Zrbhe94Cw77gc3.z4Mg.cdIYkVK', 'user'),
+(18, 'alphamale123', '$2a$10$dAuxvcP8YcEpIOM7WQQ5GOuQ.fmNnubvgcx9tmjOlQDpyl7JcoRA.', 'user'),
+(19, '339944992', '$2a$10$55ybejQnlZs7gVZQj7IB5OE6otGtn/yevLUHUBXb8i6BHN5oG46Jq', 'user');
 
 -- --------------------------------------------------------
 
@@ -62,7 +70,13 @@ CREATE TABLE `diagnoses` (
 INSERT INTO `diagnoses` (`patientSocialSecurityNumber`, `symptomID`, `date`) VALUES
 ('000127-4899', 2, '2021-02-01'),
 ('000127-4899', 14, '2021-02-01'),
+('000128-4813', 3, '2022-05-23'),
+('000128-4813', 5, '2022-04-20'),
+('000128-4813', 8, '2022-05-16'),
 ('000325-6271', 10, '2021-05-13'),
+('010101-97E', 2, '2022-05-23'),
+('010101-97E', 9, '2022-05-16'),
+('010101-97E', 10, '2022-04-20'),
 ('010201-5814', 17, '2021-05-16'),
 ('010327-525G', 3, '2021-03-17'),
 ('010327-525G', 8, '2021-05-11'),
@@ -179,6 +193,7 @@ INSERT INTO `patients` (`patientSocialSecurityNumber`, `name`, `gender`, `dateOf
 ('000127-4911', 'hhihi', 'M', '2011-03-01'),
 ('000128-4811', 'hhihi', 'M', '2011-03-01'),
 ('000128-4813', 'hhihi', 'M', '2011-03-01'),
+('0001387-87N5', 'Jaykie Love', 'M', '2001-06-07'),
 ('000325-6271', 'Mariam Ritchie', 'F', '2000-03-25'),
 ('000425-224A', 'Christian McGlynn', 'M', '2000-04-25'),
 ('000506-642P', 'Cassandra Mayert', 'F', '2000-05-06'),
@@ -227,6 +242,7 @@ INSERT INTO `patients` (`patientSocialSecurityNumber`, `name`, `gender`, `dateOf
 ('120203-4446', 'Mr. Oren Block IV', 'M', '2012-02-03'),
 ('120318-5791', 'Mathilde Smith', 'F', '2012-03-18'),
 ('120407-897G', 'Torey Mills', 'M', '2012-04-07'),
+('123123', 'ditme', 'M', '2022-06-07'),
 ('130205-474D', 'Elenora Sawayn', 'F', '2013-02-05'),
 ('130701-235N', 'Arnold Medhurst', 'M', '2013-07-01'),
 ('130704-908X', 'Baby Kunde', 'M', '2013-07-04'),
@@ -249,6 +265,7 @@ INSERT INTO `patients` (`patientSocialSecurityNumber`, `name`, `gender`, `dateOf
 ('190615-6325', 'Ms. Nelda Brekke PhD', 'F', '2019-06-15'),
 ('190709-8467', 'Zander Powlowski', 'M', '2019-07-09'),
 ('210318-737O', 'Corine Hane', 'F', '2021-03-18'),
+('339944992', 'Hello My Friend', 'F', '2015-06-09'),
 ('701117-199K', 'Leland Moen', 'M', '1970-11-17'),
 ('701127-5340', 'Mrs. Lorena Kreiger', 'F', '1970-11-27'),
 ('701202-2506', 'Godfrey Haley Sr.', 'M', '1970-12-02'),
@@ -328,7 +345,11 @@ INSERT INTO `patients` (`patientSocialSecurityNumber`, `name`, `gender`, `dateOf
 ('980626-9033', 'Leonie Dibbert', 'M', '1998-06-26'),
 ('990614-395X', 'Josefa Greenfelder D', 'M', '1999-06-14'),
 ('990622-5231', 'Sid Hahn', 'M', '1999-06-22'),
-('990903-6514', 'Eldred Blanda', 'F', '1999-09-03');
+('990903-6514', 'Eldred Blanda', 'F', '1999-09-03'),
+('9tang-dungken', 'Chin Tang', 'M', '2002-06-07'),
+('alphamale123', 'AlphaMale', 'M', '2002-06-08'),
+('duyleson123', 'Le Duy Duy', 'M', '2022-06-16'),
+('lmao123-lmao', 'Le Duy Son', 'M', '2002-06-07');
 
 -- --------------------------------------------------------
 
@@ -347,46 +368,50 @@ CREATE TABLE `shifts` (
 
 INSERT INTO `shifts` (`staffMemberSocialSecurityNumber`, `vaccinationID`) VALUES
 ('19571227-3064', 1),
-('19571227-3064', 3),
-('19571227-3064', 28),
-('19610330-6066', 6),
-('19630812-6581', 4),
-('19660601-1051', 6),
-('19680115-6662', 7),
-('19700204-9152', 4),
-('19700204-9152', 6),
-('19720212-5327', 3),
+('19750726-4531', 1),
+('19920802-4854', 1),
+('19940615-4448', 1),
 ('19720223-1761', 2),
 ('19731007-1310', 2),
-('19731009-8366', 6),
 ('19740308-7818', 2),
-('19740516-4369', 5),
 ('19740731-5488', 2),
-('19750726-4531', 1),
-('19750726-4531', 3),
-('19750726-4531', 16),
-('19751212-3265', 6),
-('19760420-5220', 4),
-('19760420-5220', 7),
 ('19771003-5988', 2),
+('19571227-3064', 3),
+('19720212-5327', 3),
+('19750726-4531', 3),
+('19871016-6825', 3),
+('19630812-6581', 4),
+('19700204-9152', 4),
+('19760420-5220', 4),
+('19790817-5492', 4),
+('19920802-4854', 4),
+('19930315-7195', 4),
+('19740516-4369', 5),
+('19820721-424H', 5),
+('19910122-1693', 5),
+('19610330-6066', 6),
+('19660601-1051', 6),
+('19700204-9152', 6),
+('19731009-8366', 6),
+('19751212-3265', 6),
+('19880817-8027', 6),
+('19900103-6172', 6),
+('19920211-1565', 6),
+('19920802-4854', 6),
+('19940615-4448', 6),
+('19680115-6662', 7),
+('19760420-5220', 7),
 ('19771003-5988', 7),
 ('19771112-4048', 7),
 ('19790212-2618', 7),
-('19790817-5492', 4),
 ('19820218-5928', 7),
-('19820721-424H', 5),
 ('19860607-9671', 7),
-('19871016-6825', 3),
-('19880817-8027', 6),
-('19900103-6172', 6),
-('19910122-1693', 5),
-('19920211-1565', 6),
-('19920802-4854', 1),
-('19920802-4854', 4),
-('19920802-4854', 6),
-('19930315-7195', 4),
-('19940615-4448', 1),
-('19940615-4448', 6);
+('19750726-4531', 16),
+('19731007-1310', 27),
+('19740308-7818', 28),
+('19571227-3064', 33),
+('19720212-5327', 34),
+('19731009-8366', 34);
 
 -- --------------------------------------------------------
 
@@ -517,10 +542,11 @@ INSERT INTO `vaccinations` (`vaccinationID`, `vaccineStationId`, `limitNumber`, 
 (6, 2, 300, '2021-05-14', 'AstraZeneca'),
 (7, 4, 200, '2021-05-10', 'AstraZeneca'),
 (16, 3, 300, '2022-05-08', 'AstraZeneca'),
-(26, 1, 300, '2022-12-20', 'AstraZeneca'),
 (27, 1, 300, '2022-09-12', 'AstraZeneca'),
 (28, 1, 300, '2022-11-13', 'AstraZeneca'),
-(31, 1, 20, '2021-10-05', 'dsdada');
+(31, 1, 20, '2021-10-05', 'dsdada'),
+(33, 14, 200, '2022-10-19', 'AstraZeneca'),
+(34, 15, 200, '2022-06-23', 'AstraZeneca');
 
 -- --------------------------------------------------------
 
@@ -538,90 +564,94 @@ CREATE TABLE `vaccineregistrations` (
 --
 
 INSERT INTO `vaccineregistrations` (`patientSocialSecurityNumber`, `vaccinationID`) VALUES
-('000128-4813', 16),
-('000128-4813', 26),
-('000128-4813', 28),
-('000325-6271', 3),
-('000325-6271', 5),
-('000425-224A', 2),
-('000506-642P', 3),
-('010201-5814', 2),
-('010201-5814', 5),
-('011119-9865', 2),
-('021001-957O', 7),
 ('021130-649D', 1),
-('021130-649D', 5),
-('040113-8197', 3),
+('180604-6419', 1),
+('721030-5216', 1),
+('780613-7560', 1),
+('841026-9331', 1),
+('960807-613R', 1),
+('000425-224A', 2),
+('010201-5814', 2),
+('011119-9865', 2),
 ('040208-7391', 2),
 ('050922-330C', 2),
-('060325-323X', 7),
-('060729-292C', 4),
-('070218-9109', 6),
 ('071001-8429', 2),
-('080514-3385', 5),
-('090202-1778', 7),
-('090226-5673', 3),
-('090518-869W', 6),
-('101229-7602', 5),
-('110420-6983', 3),
-('110929-252V', 6),
-('120318-5791', 4),
 ('130725-3724', 2),
+('760108-8906', 2),
+('801127-1830', 2),
+('840805-1135', 2),
+('860804-829D', 2),
+('890104-753F', 2),
+('000325-6271', 3),
+('000506-642P', 3),
+('040113-8197', 3),
+('090226-5673', 3),
+('110420-6983', 3),
+('161215-9509', 3),
+('181012-5367', 3),
+('710325-877I', 3),
+('710327-313B', 3),
+('790503-394M', 3),
+('820126-623A', 3),
+('850315-155F', 3),
+('880810-358W', 3),
+('980626-9033', 3),
+('060729-292C', 4),
+('120318-5791', 4),
+('150419-7928', 4),
+('161215-9509', 4),
+('720214-2797', 4),
+('780613-7560', 4),
+('790121-7800', 4),
+('990614-395X', 4),
+('000325-6271', 5),
+('010201-5814', 5),
+('021130-649D', 5),
+('080514-3385', 5),
+('101229-7602', 5),
 ('130725-3724', 5),
 ('140307-203V', 5),
 ('141231-4486', 5),
-('150419-7928', 4),
-('160930-586P', 7),
-('161215-9509', 3),
-('161215-9509', 4),
-('180604-6419', 1),
-('180604-6419', 6),
-('181012-5367', 3),
 ('181012-5367', 5),
-('181012-5367', 7),
-('190615-6325', 7),
-('710325-877I', 3),
-('710327-313B', 3),
-('720214-2797', 4),
-('721030-5216', 1),
-('721030-5216', 7),
 ('730126-956K', 5),
-('730218-253D', 6),
-('751211-287B', 7),
-('760108-8906', 2),
 ('761223-707W', 5),
-('770504-8289', 6),
-('780613-7560', 1),
-('780613-7560', 4),
-('780613-7560', 6),
 ('780807-657T', 5),
-('790121-7800', 4),
-('790503-394M', 3),
 ('790608-9686', 5),
-('801127-1830', 2),
-('811005-5518', 6),
-('820126-623A', 3),
-('840805-1135', 2),
-('841026-9331', 1),
-('841229-112N', 6),
 ('850212-376B', 5),
-('850310-787I', 6),
-('850315-155F', 3),
-('860804-829D', 2),
-('860811-3456', 6),
-('880810-358W', 3),
-('890104-753F', 2),
 ('890607-6113', 5),
-('930804-7021', 6),
 ('950303-191X', 5),
-('950303-191X', 6),
 ('960629-4156', 5),
-('960807-613R', 1),
 ('960807-613R', 5),
 ('971214-2818', 5),
-('980626-9033', 3),
-('990614-395X', 4),
-('990903-6514', 7);
+('070218-9109', 6),
+('090518-869W', 6),
+('110929-252V', 6),
+('180604-6419', 6),
+('730218-253D', 6),
+('770504-8289', 6),
+('780613-7560', 6),
+('811005-5518', 6),
+('841229-112N', 6),
+('850310-787I', 6),
+('860811-3456', 6),
+('930804-7021', 6),
+('950303-191X', 6),
+('021001-957O', 7),
+('060325-323X', 7),
+('090202-1778', 7),
+('160930-586P', 7),
+('181012-5367', 7),
+('190615-6325', 7),
+('721030-5216', 7),
+('751211-287B', 7),
+('990903-6514', 7),
+('000128-4813', 16),
+('000128-4813', 27),
+('123123', 27),
+('duyleson123', 27),
+('alphamale123', 28),
+('000128-4813', 33),
+('339944992', 34);
 
 -- --------------------------------------------------------
 
@@ -647,7 +677,12 @@ INSERT INTO `vaccinestations` (`vaccineStationId`, `name`, `phone`, `address`) V
 (4, 'Iso Omena Vaccination Point', '098-163-4500', 'Suomelahdentie 1 02230 ESPOO'),
 (5, 'Sanomala Vaccination Point', '093-105-3153', 'Sanomatie 1 01770 VANTAA'),
 (6, 'Myyrmaki Energia Areena', '093-104-5930', 'Rajatorpantie 23 01600 VANTAA'),
-(11, 'golden square', '095367289', '138 golden street');
+(11, 'golden square', '095367289', '138 golden street'),
+(12, 'ABC', '093-101-0025', '13 Thien Hien'),
+(13, 'Trạm Y Tế America Đình', '321313123213', 'America Dinh'),
+(14, 'Trạm Thương Xá Nigma', 'lmaoez', 'Hello from these other side'),
+(15, 'Lmao station', '4434343', 'VN'),
+(16, 'TramTiemChungVaccine', '2134210421', 'HaNoi');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -720,26 +755,22 @@ ALTER TABLE `vaccinestations`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
+  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT cho bảng `symptoms`
 --
 ALTER TABLE `symptoms`
   MODIFY `symptomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
 --
 -- AUTO_INCREMENT cho bảng `vaccinations`
 --
 ALTER TABLE `vaccinations`
-  MODIFY `vaccinationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
-
+  MODIFY `vaccinationID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT cho bảng `vaccinestations`
 --
 ALTER TABLE `vaccinestations`
-  MODIFY `vaccineStationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
+  MODIFY `vaccineStationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
@@ -755,7 +786,7 @@ ALTER TABLE `diagnoses`
 -- Các ràng buộc cho bảng `shifts`
 --
 ALTER TABLE `shifts`
-  ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`staffmemberSocialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSecurityNumber`),
+  ADD CONSTRAINT `shifts_ibfk_1` FOREIGN KEY (`staffMemberSocialSecurityNumber`) REFERENCES `staffmembers` (`staffMemberSocialSecurityNumber`),
   ADD CONSTRAINT `shifts_ibfk_2` FOREIGN KEY (`vaccinationID`) REFERENCES `vaccinations` (`vaccinationID`);
 
 --
