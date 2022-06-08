@@ -123,7 +123,7 @@ class StaffMemberQueries {
 
         try {
 
-            var findShiftQuery = "SELECT * FROM shifts WHERE vaccinationId=? AND staffMemberSocialSecurityNumber=?"
+            var findShiftQuery = "SELECT * FROM shifts WHERE vaccinationID=? AND staffMemberSocialSecurityNumber=?"
             var findShiftParameter = [
                 ID,
                 SSN
@@ -138,7 +138,7 @@ class StaffMemberQueries {
                 })
             }
             
-            var findVaccinationQuery = "SELECT * FROM vaccinations WHERE vaccinationId=?"
+            var findVaccinationQuery = "SELECT * FROM vaccinations WHERE vaccinationID=?"
             var findVaccinationParameter = [
                 ID
             ]
@@ -164,7 +164,7 @@ class StaffMemberQueries {
                 })
             }
 
-            var deleteShiftQuery = 'DELETE FROM shifts WHERE vaccinationId=? AND staffMemberSocialSecurityNumber=?';
+            var deleteShiftQuery = 'DELETE FROM shifts WHERE vaccinationID=? AND staffMemberSocialSecurityNumber=?';
             var deleteShiftQueryParameters = [
                 ID,
                 SSN

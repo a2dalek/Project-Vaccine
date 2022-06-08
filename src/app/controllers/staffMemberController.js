@@ -20,11 +20,13 @@ class staffMemberController {
 
     async deleteFromShift(req, res) {
 
+        req.query.vaccinationid = parseInt(req.query.vaccinationid);
+        console.log(req.query);
         const deleteFromShiftSchema = {
             type: "object",
             properties: {
                 vaccinationid : {
-                    type: "string",
+                    type: "integer",
                 },
                 staffMemberSocialSecurityNumber : {
                     type: "string",

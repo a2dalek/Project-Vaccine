@@ -5,7 +5,7 @@ const app = express()
 const port = process.env.PORT || 5000
 
 app.use(cors({
-  origin: 'https://dry-lake-49761.herokuapp.com',
+  origin: ['http://localhost:3000', 'https://dry-lake-49761.herokuapp.com'],
   credentials: true
 }));
 app.use(express.json());

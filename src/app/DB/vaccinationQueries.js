@@ -4,6 +4,7 @@ const vaccineStationQueries = require('./vaccineStationQueries');
 const staffMemberQueries = require('./staffMemberQueries');
 const patientQueries = require('./patientQueries');
 const newError = require('../utils/Error/index');
+const { date } = require('joi');
 
 class VaccinationsQueries {
 
@@ -330,84 +331,11 @@ class VaccinationsQueries {
 
             const dateDiff = await dbQuery(dateDiffQuery, dateDiffParameter);
 
-            if (dateDiff[0] && dateDiff[0].dateDiff <= 60) {
+            if (dateDiff.length != 0 && dateDiff[0].dateDiff != null && dateDiff[0].dateDiff <= 60) {
                 throw new newError({
                     error: 10032,
                     error_type: "Time between two vaccinations must be longer than 60 days",
-                    data:[]
-                })
-            }
-
-            var insertVaccineRegistrationsQuery = 'INSERT INTO vaccineregistrations(patientSocialSecurityNumber, vaccinationID) VALUES(?, ?)';
-            var parameters = [
-                insertValue.SSN,
-                insertValue.vaccinationID,
-            ];
-
-            const vaccineRegistrations = await dbQuery(insertVaccineRegistrationsQuery, parameters);
-            return vaccineRegistrations;
-        } catch (error) {
-            throw error;
-        }
-    };
-
-    //Add patient into vaccination
-
-    async assignPatientToVaccination(insertValue) {
-
-        try {
-
-            const vaccination = await this.getVaccinationByID(insertValue.vaccinationID);
-
-            var today = new Date();
-            var queryDay = new Date(vaccination.date);
-
-            if (today >= queryDay) {
-                throw new newError({
-                    error: 10021,
-                    error_type: "Can't assign patient to vaccination in the past",
-                    data: []
-                })
-            }
-
-            const numberAssigned = Object.keys(vaccination.patientsList).length;
-
-            if (numberAssigned >= vaccination.limitNumber) {
-                throw new newError({
-                    error: 10029,
-                    error_type: "Out of limit",
-                    data: []
-                })
-            }
-            
-            const patient = await patientQueries.getPatientBySSN(insertValue.SSN);
-
-            const isDangerous = patient.diagnosesList.filter(function(diagnoses) { return diagnoses.criticality === '1'}).length;
-            if (isDangerous > 0) {
-                throw new newError({
-                    error: 10030,
-                    error_type: "Having dangerous symptoms",
-                    data: []
-                })
-            }
-
-            
-            var dateDiffQuery = 
-            "SELECT MAX(DATEDIFF(?,date)) AS dateDiff FROM vaccinations WHERE vaccinationID IN \
-               (SELECT vaccinationID FROM vaccineregistrations WHERE patientSocialSecurityNumber=?)";
-
-            var dateDiffParameter = [
-                vaccination.date,
-                insertValue.SSN,
-            ]
-
-            const dateDiff = await dbQuery(dateDiffQuery, dateDiffParameter);
-
-            if (dateDiff[0] && dateDiff[0].dateDiff <= 60) {
-                throw new newError({
-                    error: 10032,
-                    error_type: "Time between two vaccinations must be longer than 60 days",
-                    data:[]
+                    data: dateDiff[0].dateDiff
                 })
             }
 

@@ -6,6 +6,7 @@ const diagnoseRoute = require('./diagnose');
 const patientRoute = require('./patient');
 const profileRoute = require('./profile');
 const authRoute = require('./auth')
+const symptomRoute = require('./symptom');
 
 function route(app) {
     
@@ -16,6 +17,7 @@ function route(app) {
     app.use('/patients', patientRoute);
     app.use('/auth', authRoute);
     app.use('/profile', profileRoute);
+    app.use('/symptoms', symptomRoute);
     app.use('/', homepageRoute);
 
 }
