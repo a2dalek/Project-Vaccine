@@ -3,7 +3,7 @@
 Một ứng dụng đơn giản để quản lý quá trình đăng ký tiêm chủng
 
 ## Thiết kế database:
-![][image_ref_nr4n9v16]
+![z3477765957202_bfa4380961382d278d180883bb858771](https://user-images.githubusercontent.com/91514166/172653780-2bea7d5d-e7c7-4287-9f77-c1a2fc002512.jpg)
 Dữ liệu demo ở file **vaccine.sql**
 ## APIs
 https://app.swaggerhub.com/apis/DuongBinhVu/Vaccine/3.0.0-oas3
